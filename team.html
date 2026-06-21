@@ -12,14 +12,17 @@ body{margin:0;background:#fafafa;display:flex;justify-content:center;align-items
 
 <script>
 // ============================================================
-//  MBROJTJA: Bllokimi i klikimit të djathtë dhe tasteve
+//  MBROJTJA E PLOTË (kombinim i të gjitha metodave)
 // ============================================================
+
+// 1. Parandalimi i klikimit të djathtë
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     return false;
 });
 
-document.addEventListener('keydown', function(e) {
+// 2. Parandalimi i të gjitha tasteve të rrezikshme
+document.onkeydown = function(e) {
     // F12
     if (e.key === 'F12' || e.keyCode === 123) {
         e.preventDefault();
@@ -30,21 +33,93 @@ document.addEventListener('keydown', function(e) {
         e.preventDefault();
         return false;
     }
+    // Ctrl+S (Save page)
+    if (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.keyCode === 83)) {
+        e.preventDefault();
+        return false;
+    }
     // Ctrl+Shift+I (Inspect)
     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
         e.preventDefault();
         return false;
     }
-    // Ctrl+S (Save)
-    if (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.keyCode === 83)) {
+    // Ctrl+Shift+J (Console)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
         e.preventDefault();
         return false;
     }
-});
+    // Ctrl+C (Copy)
+    if (e.ctrlKey && (e.key === 'c' || e.key === 'C' || e.keyCode === 67)) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+V (Paste)
+    if (e.ctrlKey && (e.key === 'v' || e.key === 'V' || e.keyCode === 86)) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+X (Cut)
+    if (e.ctrlKey && (e.key === 'x' || e.key === 'X' || e.keyCode === 88)) {
+        e.preventDefault();
+        return false;
+    }
+    // F5 (Refresh)
+    if (e.key === 'F5' || e.keyCode === 116) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+F5 (Hard refresh)
+    if (e.ctrlKey && (e.key === 'F5' || e.keyCode === 116)) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+R (Refresh)
+    if (e.ctrlKey && (e.key === 'r' || e.key === 'R' || e.keyCode === 82)) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+W (Close tab)
+    if (e.ctrlKey && (e.key === 'w' || e.key === 'W' || e.keyCode === 87)) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+N (New window)
+    if (e.ctrlKey && (e.key === 'n' || e.key === 'N' || e.keyCode === 78)) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+P (Print)
+    if (e.ctrlKey && (e.key === 'p' || e.key === 'P' || e.keyCode === 80)) {
+        e.preventDefault();
+        return false;
+    }
+    return true;
+};
+
+// 3. Bllokimi i hapjes së view-source: 
+if (window.location.protocol === 'view-source:') {
+    window.location.href = 'about:blank';
+}
+
+// 4. Zbulimi i DevTools (metodë me performance)
+(function detectDevTools() {
+    var start = performance.now();
+    var check = function() {
+        var now = performance.now();
+        if (now - start > 300) {
+            alert('DevTools u zbulua! Ju lutemi mbylleni për të vazhduar.');
+            // Përndryshe mund të fshish përmbajtjen
+            // document.body.innerHTML = '';
+            // window.location.href = 'about:blank';
+        }
+        start = now;
+        requestAnimationFrame(check);
+    };
+    requestAnimationFrame(check);
+})();
 
 // ============================================================
 //  KRIJIMI I GJITHË FAQES PËRMES JAVASCRIPT
-//  (për të parandaluar View Source)
 // ============================================================
 
 // URL e fshehur në Base64
