@@ -12,16 +12,16 @@ body{margin:0;background:#fafafa;display:flex;justify-content:center;align-items
 
 <script>
 // ============================================================
-//  MBROJTJA E PLOTË (kombinim i të gjitha metodave)
+//  COMPLETE PROTECTION (combination of all methods)
 // ============================================================
 
-// 1. Parandalimi i klikimit të djathtë
+// 1. Prevent right-click
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
     return false;
 });
 
-// 2. Parandalimi i të gjitha tasteve të rrezikshme
+// 2. Block all dangerous keyboard shortcuts
 document.onkeydown = function(e) {
     // F12
     if (e.key === 'F12' || e.keyCode === 123) {
@@ -96,33 +96,16 @@ document.onkeydown = function(e) {
     return true;
 };
 
-// 3. Bllokimi i hapjes së view-source: 
+// 3. Block view-source: protocol
 if (window.location.protocol === 'view-source:') {
     window.location.href = 'about:blank';
 }
 
-// 4. Zbulimi i DevTools (metodë me performance)
-(function detectDevTools() {
-    var start = performance.now();
-    var check = function() {
-        var now = performance.now();
-        if (now - start > 300) {
-            alert('DevTools u zbulua! Ju lutemi mbylleni për të vazhduar.');
-            // Përndryshe mund të fshish përmbajtjen
-            // document.body.innerHTML = '';
-            // window.location.href = 'about:blank';
-        }
-        start = now;
-        requestAnimationFrame(check);
-    };
-    requestAnimationFrame(check);
-})();
-
 // ============================================================
-//  KRIJIMI I GJITHË FAQES PËRMES JAVASCRIPT
+//  CREATE ENTIRE PAGE CONTENT VIA JAVASCRIPT
 // ============================================================
 
-// URL e fshehur në Base64
+// Hidden URL in Base64
 var _0xenc = [
     "aHR0cHM6Ly8=",                   // 0: "https://"
     "Ym9tYmFzcGVyZmVjdGE=",           // 1: "bombasperfecta"
@@ -135,11 +118,11 @@ function _0xdec(_0xidx) {
     return atob(_0xenc[_0xidx]);
 }
 
-// Monto URL-në
+// Build the full URL
 var targetUrl = _0xdec(0) + _0xdec(1) + _0xdec(2) + _0xdec(3) + _0xdec(4);
 
 // ============================================================
-//  KRIJON TË GJITHË PËRMBAJTJEN HTML
+//  BUILD HTML CONTENT
 // ============================================================
 var htmlContent = `
 <div class="container">
@@ -281,11 +264,11 @@ button:disabled{
 </style>
 `;
 
-// Fut përmbajtjen në faqe
+// Insert content into page
 document.getElementById('root').innerHTML = htmlContent;
 
 // ============================================================
-//  LOGJIKA E NUMËRIMIT DHE BUTONIT
+//  COUNTDOWN AND BUTTON LOGIC
 // ============================================================
 let total = 4;
 let current = 4;
